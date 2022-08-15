@@ -2,10 +2,19 @@ import java.util.Scanner;
 import java.util.LinkedList;
 
 public class Pagos{
+    public static void print(float[] p, float[] g, float total)
+    {
+        //for (int i = 0; i < p.length; i++) {
+        //    System.out.println(p[i]);
+        //    System.out.println(g[i]);
+        //}
+        //System.out.println(total);
+    }
+
     public static void main(String[] args) {
-        int[] p = new int[3];
-        int[] g = new int[3];
-        double total = 0;
+        float[] p = new float[3];
+        float[] g = new float[3];
+        float total = 0;
         Scanner sc = new Scanner(System.in);
         String letra = "";
         int temp = 0;
@@ -15,22 +24,24 @@ public class Pagos{
             temp = quien(letra);
             if(temp != -1){
                 System.out.print("Cuánto pagó? ");
-                p[temp] += sc.nextDouble();
+                p[temp] += sc.nextFloat();
             }else{
                 if(letra.toLowerCase().charAt(0) != 's')
                     System.out.println("Letra inválida");
             }
+            print(p, g, total);
         }while(letra.toLowerCase().charAt(0) != 's');
         letra = "";
         
         //Cambio
         System.out.print("Cuánto fue el cambio: ");
-        double cambio = sc.nextDouble();
+        float cambio = sc.nextFloat();
         do{
             System.out.print("Quién recibió el cambio: ");
             String nombre = sc.next();
             temp = quien(nombre);
             p[temp] -= cambio;
+            print(p, g, total);
         }while(temp == -1);
 
         //Total
@@ -38,17 +49,19 @@ public class Pagos{
             System.out.print("Costo: ");
             letra = sc.next();
             if(letra.matches("[+-]?\\d*(\\.\\d+)?")){
-                total += Double.parseDouble(letra);
+                total += Float.parseFloat(letra);
             }else{
                 if(letra.toLowerCase().charAt(0) != 's')
                     System.out.println("Número inválido");
             }
+            print(p, g, total);
         }while(letra.toLowerCase().charAt(0) != 's');
         letra = "";
 
         //Reparte
         LinkedList<Integer> lista = new LinkedList<Integer>();
         do{
+            lista.clear();
             do{
                 System.out.print("Quién gastó? ");
                 letra = sc.next();
@@ -59,30 +72,33 @@ public class Pagos{
                     if(letra.toLowerCase().charAt(0) != 's')
                         System.out.println("Letra inválida");
                 }
+                print(p, g, total);
             }while(letra.toLowerCase().charAt(0) != 's');
-            double precio = 0;
+            float precio = 0;
             System.out.print("Cuánto gastó? ");
-            precio = sc.nextDouble();
+            precio = sc.nextFloat();
             for(int i : lista){
                 g[i] += precio / lista.size();
             }
             System.out.print("Salir? ");
             letra = sc.next();
+            print(p, g, total);
         }while(letra.toLowerCase().charAt(0) != 's');
         letra = "";
 
         //Cada uno
-        double cadaUno = (total - g[0] - g[1] - g[2]) / 3;
+        float cadaUno = (total - g[0] - g[1] - g[2]) / 3;
         g[0] += cadaUno;
         g[1] += cadaUno;
         g[2] += cadaUno;
         p[0] -= g[0];
         p[1] -= g[1];
         p[2] -= g[2];
+        print(p, g, total);
 
         //300
         //p ahora es lo que le deben pagar a cada uno
-        int[] quienes = new int[3];
+        float[] quienes = new float[3];
         do{
             System.out.print("A quién le deben? ");
             letra = sc.next();    
@@ -101,6 +117,7 @@ public class Pagos{
                     }
                 }
             }
+            print(p, g, total);
         }while(letra.toLowerCase().charAt(0) != 's');
         letra = "";
 
